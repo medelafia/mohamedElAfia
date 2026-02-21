@@ -29,6 +29,16 @@ jobs:
           docker build -t bookshop:latest .
           docker tag bookshop:latest ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
           docker push ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+      - name: Copy file via SSH
+        uses: appleboy/scp-action@v1 # Use the appleboy/scp-action
+        with:
+          host: ${{secrets.HOST}}
+          port: ${{secrets.PORT}} 
+          username: ${{secrets.USERNAME}} 
+          password: ${{secrets.PASSWORD}} 
+          source: "docker-compose.yaml" # The local path to the file in your repo
+          target: "/home/${{secrets.USERNAME}}/"
+          
   deploy:
     runs-on: ubuntu-latest
     needs: build
