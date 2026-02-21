@@ -20,5 +20,5 @@ public class CartItem {
     private Book book;
 
     private int quantity;
-    private BigDecimal unitPrice;
+    private double unitPrice;
 }
