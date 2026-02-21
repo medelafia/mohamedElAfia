@@ -21,9 +21,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtDecoder jwtDecoder;
 
-    // Injection par constructeur manuel
     public JwtFilter(JwtDecoder jwtDecoder) {
         this.jwtDecoder = jwtDecoder;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/api/public/") || path.startsWith("/api/auth/");
     }
 
     @Override
@@ -38,19 +43,19 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             try {
                 Jwt jwt = jwtDecoder.decode(token);
-
                 String email = jwt.getSubject();
                 String role = jwt.getClaimAsString("role");
 
-                var auth = new UsernamePasswordAuthenticationToken(
-                        email,
-                        null,
-                        List.of(new SimpleGrantedAuthority("ROLE_" + role))
-                );
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                email,
+                                null,
+                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                        );
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             } catch (JwtException e) {
-                // Token invalide → 401
+                SecurityContextHolder.clearContext();
             }
         }
 
