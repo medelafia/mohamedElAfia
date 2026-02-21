@@ -14,19 +14,19 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 public class JwtConfig {
 
+    private final SecretKeySpec secretKey;
 
-    @Value("${jwt.secret:bookshop_secret_key_must_be_at_least_32_characters_long_2024}")
-    private String secret;
+    public JwtConfig(@Value("${jwt.secret:bookshop_secret_key_must_be_at_least_32_characters_long_2024_ok}") String secret) {
+        this.secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+    }
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        SecretKeySpec key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(key).build();
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
     @Bean
     public JwtEncoder jwtEncoder() {
-        SecretKeySpec key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-        return new NimbusJwtEncoder(new ImmutableSecret<>(key));
+        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey));
     }
 }
