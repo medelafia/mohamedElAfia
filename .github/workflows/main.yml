@@ -60,5 +60,5 @@ jobs:
             echo "successfuly authenticated"
             docker pull ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
             docker compose down || true 
-            docker compose up -d 
+            docker compose up -d --build
   
