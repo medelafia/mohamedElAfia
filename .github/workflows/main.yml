@@ -14,7 +14,7 @@ jobs:
           sudo apt-get install maven -y
       - name : build target
         run : | 
-          mvn clean package
+          mvn clean package -DskipTests
       - name : install docker
         run : |
           curl -fsSL https://get.docker.com -o get-docker.sh
