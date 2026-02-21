@@ -59,7 +59,6 @@ jobs:
           script: | 
             echo "successfuly authenticated"
             docker pull ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
-            docker stop bookshop_container || true 
-            docker rm bookshop_container || true 
-            docker run -p 8082:8080 -e DB_USER=${{secrets.DB_USER}} -e DB_PASSWORD=${{secrets.DB_PASSWORD}} -e JWT_SECRET=${{secrets.JWT_SECRET}} -d --name bookshop_container ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+            docker compose down || true 
+            docker compose up -d 
   
