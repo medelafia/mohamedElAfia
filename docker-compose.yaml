@@ -17,10 +17,10 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
   web-app:
-    build: .
+    image: ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
     container_name: bookshop-container
     ports:
-      - "8080:8080"
+      - "8082:8080"
     env_file:
       - ./.env
     networks:
