@@ -3,6 +3,7 @@ package com.bookshop.service;
 import com.bookshop.dto.LoginRequest;
 import com.bookshop.dto.LoginResponse;
 import com.bookshop.entities.User;
+import com.bookshop.exception.UnauthorizedException;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +26,10 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Email ou mot de passe incorrect"));
+                .orElseThrow(() -> new UnauthorizedException("Email ou mot de passe incorrect"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Email ou mot de passe incorrect");
+            throw new UnauthorizedException("Email ou mot de passe incorrect");
         }
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole());

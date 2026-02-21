@@ -4,6 +4,7 @@ import com.bookshop.dto.BookRequest;
 import com.bookshop.dto.BookResponse;
 import com.bookshop.entities.Book;
 import com.bookshop.entities.Category;
+import com.bookshop.exception.ResourceNotFoundException;
 import com.bookshop.repository.BookRepository;
 import com.bookshop.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AdminService {
 
     public BookResponse addBook(BookRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie non trouvée"));
 
         Book book = new Book();
         book.setTitle(request.getTitle());
@@ -38,7 +39,7 @@ public class AdminService {
 
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Livre non trouvé"));
+                .orElseThrow(() -> new ResourceNotFoundException("Livre non trouvé"));
         bookRepository.delete(book);
     }
 
