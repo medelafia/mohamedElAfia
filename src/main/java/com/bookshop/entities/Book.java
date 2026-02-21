@@ -2,6 +2,8 @@ package com.bookshop.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import java.math.BigDecimal;
 
@@ -16,7 +18,7 @@ public class Book {
     private String author;
     private String description;
 
-    private BigDecimal price;
+    private double price;
 
     @Min(value = 0, message = "Le stock ne peut pas être négatif")
     private int stock;
@@ -24,4 +26,8 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public void setPrice(@NotNull @Positive Double price) {
+
+    }
 }
