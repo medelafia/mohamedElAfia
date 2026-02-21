@@ -2,7 +2,6 @@ package com.bookshop.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -20,5 +19,5 @@ public class CartItem {
     private Book book;
 
     private int quantity;
-    private BigDecimal unitPrice;
+    private double unitPrice;
 }
