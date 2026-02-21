@@ -1,0 +1,42 @@
+name : Deploy Book Shop API
+on:
+  push: 
+    branches: [main] 
+jobs: 
+  build: 
+    runs-on: ubuntu-latest 
+    steps : 
+      - name: setup repo
+        uses: actions/checkout@v4
+      - name : Install maven
+        run: | 
+          sudo apt-get update
+          sudo apt-get install maven -y
+      - name : build target
+        run : | 
+          mvn clean package
+      - name : install docker
+        run : |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+      - name : build image
+        run : | 
+          docker build -t bookshop:latest .
+          docker tag bookshop:latest ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+          docker push ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name : ssh authentication
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{secrets.HOST}}
+          port: ${{secrets.PORT}} 
+          username: ${{secrets.USERNAME}} 
+          password: ${{secrets.PASSWORD}} 
+          script: | 
+            docker pull ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+            docker stop bookshop_container || true 
+            docker rm bookshop_container || true 
+            docker run -p 8080:8080 -d --name bookshop_container ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
+  
