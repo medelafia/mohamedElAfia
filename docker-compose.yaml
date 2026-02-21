@@ -10,8 +10,9 @@ services:
     container_name: mysql-container
     ports:
       - "3306:3306"
-    env_file:
-      - ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD=${{secrets.DB_PASSWORD}}
+      MYSQL_DATABASE=bookshop
     networks:
       - web-app-net
     volumes:
@@ -21,8 +22,9 @@ services:
     container_name: bookshop-container
     ports:
       - "8082:8080"
-    env_file:
-      - ./.env
+    environment:
+      DB_PASSWORD=${{secrets.DB_PASSWORD}}
+      DB_USER=${{secrets.DB_USER}}
     networks:
       - web-app-net
 
