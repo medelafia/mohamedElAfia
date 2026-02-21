@@ -2,7 +2,6 @@ package com.bookshop.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.math.BigDecimal;
 
 @Entity
 @Data

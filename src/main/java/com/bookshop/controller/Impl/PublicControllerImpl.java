@@ -27,8 +27,8 @@ public class PublicControllerImpl implements PublicController {
     }
 
     @Override
-    public ResponseEntity<Page<Book>> getBooks(int page, int size) {
-        Page<Book> booksPage = publicBookService.getBooks(PageRequest.of(page, size));
+    public ResponseEntity<Page<Book>> getBooks(Long categoryId, String keyword, int page, int size, String sortBy, String sortDir) {
+        Page<Book> booksPage = publicBookService.getBooks(categoryId, keyword, page, size, sortBy, sortDir);
         return ResponseEntity.ok().body(booksPage);
     }
 

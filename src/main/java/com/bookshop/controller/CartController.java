@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @Tag(name = "Cart API", description = "Gestion du panier (Nécessite JWT)")
 @SecurityRequirement(name = "Bearer Authentication")
-@RequestMapping("/api/cart")
+    @RequestMapping("/api/cart")
 public interface CartController {
 
     @Operation(summary = "Voir le panier")
