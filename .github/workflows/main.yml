@@ -38,8 +38,9 @@ jobs:
           host: ${{secrets.HOST}}
           port: ${{secrets.PORT}} 
           username: ${{secrets.USERNAME}} 
-          password: ${{secrets.PASSWORD}} 
+          key: ${{secrets.SSH_AUTH_KEY}} 
           script: | 
+            echo "successfuly authenticated"
             docker pull ${{secrets.DOCKERHUB_REGISTER}}/bookshop:latest
             docker stop bookshop_container || true 
             docker rm bookshop_container || true 
