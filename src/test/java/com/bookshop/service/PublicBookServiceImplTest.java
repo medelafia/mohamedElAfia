@@ -1,4 +1,4 @@
-package com.bookshop.service.impl;
+package com.bookshop.service;
 
 import com.bookshop.entities.Book;
 import com.bookshop.entities.Category;
@@ -49,7 +49,7 @@ class PublicBookServiceImplTest {
         sampleBook.setId(1L);
         sampleBook.setTitle("Spring Boot en Action");
         sampleBook.setAuthor("Craig Walls");
-        sampleBook.setPrice(new BigDecimal("45.00"));
+        sampleBook.setPrice(45.00);
         sampleBook.setStock(10);
         sampleBook.setCategory(sampleCategory);
     }
