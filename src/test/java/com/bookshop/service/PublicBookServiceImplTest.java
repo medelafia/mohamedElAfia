@@ -11,12 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -68,16 +64,17 @@ class PublicBookServiceImplTest {
 
     @Test
     void testGetBooks_ShouldReturnPage() {
-        Pageable pageable = PageRequest.of(0, 5);
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
         Page<Book> bookPage = new PageImpl<>(Arrays.asList(sampleBook));
-        when(bookRepository.findAll(pageable)).thenReturn(bookPage);
+        when(bookRepository.searchBooks(null, null, pageable)).thenReturn(bookPage);
 
-        Page<Book> result = publicBookService.getBooks(pageable);
+        Page<Book> result = publicBookService.getBooks(null, null, 0, 5, "id", "asc");
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertEquals("Spring Boot en Action", result.getContent().get(0).getTitle());
-        verify(bookRepository, times(1)).findAll(pageable);
+
+        verify(bookRepository, times(1)).searchBooks(null, null, pageable);
     }
 
     @Test

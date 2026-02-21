@@ -7,7 +7,9 @@ import com.bookshop.repository.CategoryRepository;
 import com.bookshop.service.PublicBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -24,8 +26,13 @@ public class PublicBookServiceImpl implements PublicBookService {
     }
 
     @Override
-    public Page<Book> getBooks(Pageable pageable) {
-        return bookRepository.findAll(pageable);
+    public Page<Book> getBooks(Long categoryId, String keyword, int page, int size, String sortBy, String sortDir) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        return bookRepository.searchBooks(categoryId, keyword, pageable);
     }
 
     @Override
