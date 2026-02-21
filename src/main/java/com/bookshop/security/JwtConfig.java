@@ -14,8 +14,8 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 public class JwtConfig {
 
-    // ← valeur par défaut après les :
-    @Value("${jwt.secret:bookshop_secret_key_tres_long_2024_ok}")
+
+    @Value("${jwt.secret:bookshop_secret_key_must_be_at_least_32_characters_long_2024}")
     private String secret;
 
     @Bean
