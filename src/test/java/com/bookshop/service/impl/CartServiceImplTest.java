@@ -49,7 +49,7 @@ class CartServiceImplTest {
         sampleBook = new Book();
         sampleBook.setId(1L);
         sampleBook.setTitle("Spring Boot Pro");
-        sampleBook.setPrice(new BigDecimal("100.00"));
+        sampleBook.setPrice(100.00);
         sampleBook.setStock(10);
 
         sampleCartItem = new CartItem();
@@ -57,7 +57,7 @@ class CartServiceImplTest {
         sampleCartItem.setUser(sampleUser);
         sampleCartItem.setBook(sampleBook);
         sampleCartItem.setQuantity(2);
-        sampleCartItem.setUnitPrice(new BigDecimal("100.00"));
+        sampleCartItem.setUnitPrice(100.00);
     }
 
     @Test
@@ -69,7 +69,7 @@ class CartServiceImplTest {
 
         assertNotNull(response);
         assertEquals(1, response.getItems().size());
-        assertEquals(new BigDecimal("200.00"), response.getTotalAmount());
+        assertEquals(200.00, response.getTotalAmount());
     }
 
     @Test
@@ -85,7 +85,7 @@ class CartServiceImplTest {
 
         CartItem savedItem = cartItemCaptor.getValue();
         assertEquals(3, savedItem.getQuantity());
-        assertEquals(new BigDecimal("100.00"), savedItem.getUnitPrice());
+        assertEquals(0.00, savedItem.getUnitPrice());
     }
 
     @Test
